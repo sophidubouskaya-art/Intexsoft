@@ -1,15 +1,8 @@
-class Player:
-    #один игрок: ник и очки
-
-    def __init__(self, nick, score):
-        self.nick = nick
-        self.score = score
-
-    def __repr__(self):
-        return f"{self.nick}: {self.score}"
+from .player import Player
 
 
 class Leaderboard:
+    # таблица рейтинга игроков
 
     def __init__(self):
         self.players = []
@@ -28,6 +21,7 @@ class Leaderboard:
         return None
 
     def top_k(self, k):
+        # сортируем по убыванию очков
         sorted_players = sorted(self.players, key=lambda p: p.score, reverse=True)
         return sorted_players[:k]
 
@@ -46,33 +40,3 @@ class Leaderboard:
             return
         for p in self.players:
             print(f"  {p}")
-
-
-if __name__ == "__main__":
-    board = Leaderboard()
-
-    board.add_or_update("Misha", 100)
-    board.add_or_update("Bob", 250)
-    board.add_or_update("Dasha", 180)
-    board.add_or_update("David", 320)
-    board.add_or_update("Sofiya", 650)
-
-    print("Все игроки:")
-    board.print_all()
-
-    board.add_or_update("Bob", 400)
-    print("\nПосле обновления Bob:")
-    board.print_all()
-
-    found = board.find_by_nick("Sofiya")
-    print(f"\nНашли Sofiya: {found}")
-
-    print("\nТоп-3:")
-    for p in board.top_k(3):
-        print(f"  {p}")
-
-    print(f"\nСреднее число очков: {board.average_score():.2f}")
-
-    print("\nИгроки с очками >= 200:")
-    for p in board.players_above(200):
-        print(f"  {p}")
